@@ -46,7 +46,7 @@ export default function App({ regnum }) {
       })
         .then((res) => res.json())
         .then((json) => {
-          setData(json[0]);
+          setData(json);
         });
 
       setLoading(false);
@@ -60,7 +60,7 @@ export default function App({ regnum }) {
         phone: "error",
         g: "error",
         regnum: "error",
-        discordId: "error",
+        discordid: "error",
         town: "error",
       });
       setLoading(false);
@@ -103,7 +103,8 @@ export default function App({ regnum }) {
 
   useEffect(() => {
     handleData();
-    console.log(data.discordid);
+    console.log(data);
+    console.log("Discordid : " + data.discordid);
   }, []);
   useEffect(() => {
     handleImg(data.discordid, data.g);
