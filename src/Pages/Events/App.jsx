@@ -25,7 +25,7 @@ export default function App() {
   const [events, setEvents] = React.useState([]);
   useEffect(() => {
     // get data from localhose:5000/events
-    fetch("http://localhost:5000/events")
+    fetch("https://abdotolba.pythonanywhere.com/events")
       .then((res) => res.json())
       .then((data) => {
         // set events to data

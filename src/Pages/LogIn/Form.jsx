@@ -66,7 +66,7 @@ export default function App({
         setRegNum(data.regnum);
         setTimeout(() => {
           fetch(
-            "http://127.0.0.1:5000/exist?regnum=" +
+            "https://abdotolba.pythonanywhere.com/exist?regnum=" +
               data.regnum +
               "&password=" +
               data.password
