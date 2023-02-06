@@ -1,80 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Form from "./Form";
-
+import "./App.css";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box } from "@mui/system";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+import { LogStateContext } from "../../context/LogState";
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
   },
 });
 
-export default function App({
-  logState,
-  setLogState,
-  setRegNum,
-  nope,
-  setAdmin,
-}) {
-  const [session, setSession] = useState(true);
-
-  useEffect(() => {
-    // here will remove or add classes for the nope message
-  }, [nope]);
-
-  // check all cookies and print them
-  useEffect(() => {
-    setTimeout(() => {
-      const cookies = document.cookie.split("=");
-      console.log(cookies[1]);
-      // if there is cookie, if not break the useEffect and console log "no session"
-      if (cookies[1] > 0) {
-        console.log(session);
-        setRegNum(cookies[1]);
-        setSession(false);
-
-        setLogState(true);
-        return;
-      } else {
-        console.log("no session");
-        setSession(false);
-      }
-    }, 3000);
-  }, []);
+export default function App({ setRegNum, nope }) {
+  const { logState } = useContext(LogStateContext);
 
   return (
-    <ThemeProvider theme={darkTheme}>
-      {session ? (
-        <>
-          {/* center the CircularProgress */}
-          <Box sx={{ display: "flex" }}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "90vh",
-                width: "100vw",
-              }}
-            >
-              <CircularProgress />
-            </Box>
-          </Box>
-        </>
-      ) : (
-        <>
-          <Form
-            logState={logState}
-            setLogState={setLogState}
-            setRegNum={setRegNum}
-            nope={nope[0]}
-            setAdmin={setAdmin}
-          />
-          <h1 className={nope[1]}>NOPE</h1>
-        </>
-      )}
-    </ThemeProvider>
+    <>
+      <head className="Login_head">
+        <title>BackTeam</title>
+      </head>
+      <body className="Login_body">
+        <ThemeProvider theme={darkTheme}>
+          {logState ? (
+            <>
+              {/* center the CircularProgress */}
+              <Box sx={{ display: "flex" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "90vh",
+                    width: "100vw",
+                  }}
+                >
+                  <CircularProgress />
+                </Box>
+              </Box>
+            </>
+          ) : (
+            <>
+              <Form setRegNum={setRegNum} nope={nope[0]} />
+              <h1 className={nope[1]}>NOPE</h1>
+            </>
+          )}
+        </ThemeProvider>
+      </body>
+    </>
   );
 }

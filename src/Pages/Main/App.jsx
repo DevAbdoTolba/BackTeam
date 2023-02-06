@@ -11,17 +11,6 @@ const darkTheme = createTheme({
 });
 
 export default function App() {
-  const [logState, setLogState] = React.useState(false);
-  React.useEffect(() => {
-    const cookies = document.cookie.split("=");
-    // if there is cookie, if not break the useEffect and console log "no session"
-    if (cookies[1] > 0) {
-      setLogState(true);
-      console.log("LOGSTATE: " + logState);
-      return;
-    }
-  }, []);
-
   const secret_input = document.getElementById("secret_input");
   document.onkeydown = function (evt) {
     evt = evt || window.event;
@@ -67,7 +56,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <Header logState={!logState} />
+      <Header />
       <br />
 
       <Paper
@@ -89,27 +78,27 @@ export default function App() {
           }}
         >
           <Grid item xs={4}>
-            <div class="night">
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
-              <div class="shooting_star"></div>
+            <div className="night">
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
+              <div className="shooting_star"></div>
             </div>
             <img
               className="logo"

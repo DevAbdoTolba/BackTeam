@@ -10,8 +10,12 @@ import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import Link from "@mui/material/Link";
 import LogoutIcon from "@mui/icons-material/Logout";
 import DownhillSkiingIcon from "@mui/icons-material/DownhillSkiing";
+import { AdminContext } from "../context/Admin";
+import { LogStateContext } from "../context/LogState";
 
-export default function ButtonAppBar({ title, admin, logState, src }) {
+export default function ButtonAppBar({ title, src }) {
+  const { logState } = React.useContext(LogStateContext);
+  const { admin } = React.useContext(AdminContext);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -39,7 +43,7 @@ export default function ButtonAppBar({ title, admin, logState, src }) {
             </IconButton>
           )}
 
-          {!logState && (
+          {logState && (
             <IconButton
               size="large"
               edge="start"
@@ -56,6 +60,7 @@ export default function ButtonAppBar({ title, admin, logState, src }) {
                       "=;expires=" + new Date().toUTCString() + ";path=/"
                     );
                 });
+
                 window.location.href = "/";
               }}
             >
@@ -71,7 +76,7 @@ export default function ButtonAppBar({ title, admin, logState, src }) {
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            {logState ? <DownhillSkiingIcon /> : <AccountCircleIcon />}
+            {!logState ? <DownhillSkiingIcon /> : <AccountCircleIcon />}
           </IconButton>
 
           <IconButton

@@ -19,54 +19,6 @@ export default function App({ regnum }) {
     "https://fakeinfo.net/static/img/userface.svg"
   );
 
-  const handleData = () => {
-    if (regnum === 0) return;
-    try {
-      fetch(`https://abdotolba.pythonanywhere.com/user/${regnum}`, {
-        headers: {
-          accept:
-            "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-          "accept-language": "en-US,en;q=0.9,ar-EG;q=0.8,ar;q=0.7",
-          "cache-control": "max-age=0",
-          "sec-ch-ua":
-            '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
-          "sec-ch-ua-mobile": "?0",
-          "sec-ch-ua-platform": '"Linux"',
-          "sec-fetch-dest": "document",
-          "sec-fetch-mode": "navigate",
-          "sec-fetch-site": "none",
-          "sec-fetch-user": "?1",
-          "upgrade-insecure-requests": "1",
-        },
-        referrerPolicy: "strict-origin-when-cross-origin",
-        body: null,
-        method: "GET",
-        mode: "cors",
-        credentials: "omit",
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          setData(json);
-        });
-
-      setLoading(false);
-    } catch (error) {
-      // handle error by putting empty fake data
-      setData({
-        name: "error",
-        lastname: "error",
-        gmail: "error",
-        score: "error",
-        phone: "error",
-        g: "error",
-        regnum: "error",
-        discordid: "error",
-        town: "error",
-      });
-      setLoading(false);
-    }
-  };
-
   const handleImg = (id, g) => {
     console.log(1);
     console.log(2);
@@ -74,9 +26,9 @@ export default function App({ regnum }) {
     if (localStorage.getItem(regnum)) {
       setSrc(localStorage.getItem(regnum));
       return;
-    }
-    setTimeout(() => {
-      console.log(3);
+    } else if (!regnum) return;
+    console.log(3);
+    if (regnum)
       fetch(`https://avatar.mtolba2004.workers.dev/?userid=${id}`)
         .then((res) => res.text())
         .then((txt) => {
@@ -97,18 +49,41 @@ export default function App({ regnum }) {
             setSrc(txt);
           }
         });
-      console.log(4);
-    }, 4000);
+    console.log(4);
   };
 
   useEffect(() => {
-    handleData();
-    console.log(data);
-    console.log("Discordid : " + data.discordid);
-  }, []);
+    // =====================/*/===================== //
+    //                  HandlData
+    // =====================/*/===================== //
+    if (!regnum) return;
+    try {
+      fetch(`https://abdotolba.pythonanywhere.com/user/${regnum}`).then((res) =>
+        res.json().then((json) => setData(json))
+      );
+    } catch (error) {
+      // handle error by putting empty fake data
+      setData({
+        name: "error",
+        lastname: "error",
+        gmail: "error",
+        score: "error",
+        phone: "error",
+        g: "error",
+        regnum: "error",
+        discordid: "error",
+        town: "error",
+      });
+      setLoading(false);
+    }
+    setLoading(false);
+  }, [regnum]);
+
   useEffect(() => {
     handleImg(data.discordid, data.g);
-  }, [data.discordid, data.g]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [regnum, data]);
+
   return (
     <>
       {loading ? (

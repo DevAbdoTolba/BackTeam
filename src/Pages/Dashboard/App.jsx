@@ -3,6 +3,8 @@ import Dashboard from "./Dashboard";
 import Login from "./../LogIn/App";
 import Header from "../../components/Header";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { LogStateContext } from "../../context/LogState";
+
 const darkTheme = createTheme({
   palette: {
     mode: "dark",
@@ -10,33 +12,29 @@ const darkTheme = createTheme({
 });
 
 export default function App() {
-  const [admin, setAdmin] = useState(false);
-
-  const [logState, setLogState] = useState(false);
+  const { logState } = React.useContext(LogStateContext);
   const [regnum, setRegNum] = useState(0);
+  // check for regnum in cookies
   useEffect(() => {
-    if (logState) {
-      console.log(logState);
-      console.log("REDIRECTING");
-
-      document.body.classList.remove("body");
-      document.head.classList.remove("head");
-      document.documentElement.classList.remove("html");
+    if (!logState) return;
+    const regnum = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("regnum="))
+      .split("=")[1];
+    if (regnum) {
+      setRegNum(regnum);
+      console.log("Cookies\t" + regnum);
     }
-  }, [logState]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <ThemeProvider theme={darkTheme}>
-      <Header title="Dashboard" logState={!logState} admin={admin} />
+      <Header title="Dashboard" />
       <br />
 
       {!logState ? (
-        <Login
-          logState={logState}
-          setLogState={setLogState}
-          setRegNum={setRegNum}
-          nope={[" ", " "]}
-          setAdmin={setAdmin}
-        />
+        <Login setRegNum={setRegNum} nope={[" ", " "]} />
       ) : (
         <Dashboard regnum={regnum} />
       )}

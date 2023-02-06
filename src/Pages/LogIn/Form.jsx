@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Paper } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
@@ -12,18 +12,17 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useForm } from "react-hook-form";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { AdminContext } from "../../context/Admin";
+import { LogStateContext } from "../../context/LogState";
 
-export default function App({
-  logState,
-  setLogState,
-  setRegNum,
-  nope,
-  setAdmin,
-}) {
+export default function App({ setRegNum, nope }) {
+  const { setLogState } = React.useContext(LogStateContext);
+  const { setAdmin } = React.useContext(AdminContext);
   const {
     register,
     handleSubmit,
     formState: { errors },
+    // eslint-disable-next-line no-unused-vars
     watch,
   } = useForm();
 
@@ -38,17 +37,6 @@ export default function App({
   };
 
   // add class body to body and class head to head and class html to html
-
-  useEffect(() => {
-    document.body.classList.add("body");
-    document.head.classList.add("head");
-    document.documentElement.classList.add("html");
-
-    // remove class login and nope
-    if (document.getElementsByClassName(nope[0]).length > 0) {
-      logState(false);
-    }
-  }, []);
 
   return (
     // align items center and justify content center
@@ -86,7 +74,6 @@ export default function App({
               if (txtRes === "True") {
                 if (document.cookie.split("=")[1] !== data.regnum) {
                   console.log("new cookie");
-                  console.log(document.cookie.split("=")[0]);
                   document.cookie = "regnum=" + data.regnum;
                 }
                 setTimeout(() => {
@@ -148,7 +135,7 @@ export default function App({
               ? "Wrong RegNum"
               : ""
           }
-          error={errors.regnum ? true : false || backError == "WrongRegNum"}
+          error={errors.regnum ? true : false || backError === "WrongRegNum"}
         />
 
         <br />
@@ -164,7 +151,7 @@ export default function App({
             error={
               errors.password
                 ? true
-                : false || backError == "WrongPassword"
+                : false || backError === "WrongPassword"
                 ? true
                 : false
             }
