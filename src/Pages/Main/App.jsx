@@ -128,7 +128,7 @@ export default function App() {
                 variant="h2"
                 sx={{ textAlign: "center" }}
               >
-                Welcome, <br /> To <span className="BackTeamTitle"></span> wow!
+                Welcome, <br /> To <span className="BackTeamTitle"></span> wow!!
               </Typography>
             </div>
           </Grid>
